@@ -9,6 +9,11 @@ const setValueBtn = document.getElementById('setValue');
 const valueHolder = document.getElementById('valueHolder');
 const setValueBox = document.getElementById('setValueBox');
 
+let mainNet = "0x1";
+let ropstenNet = "0x3"
+let ganacheNet = "0x539";
+
+
 // chainId.innerText = "Please Connect to Ropsten"
 
 //Get ABI file and parse it
@@ -18,12 +23,13 @@ const setValueBox = document.getElementById('setValueBox');
 //     .then(json => console.log(json['abi']));
 // }
 
+// Getting the contract JSON file 
 let SimpleStorageContract;
 async function load() {
     SimpleStorageContract = await (await fetch('./abi/SimpleStorage.json')).json();
     //console.log(data.abi)
     // debugger
-    console.log(SimpleStorageContract.abi)
+    //console.log(SimpleStorageContract.abi)
 
 
 }
@@ -80,8 +86,14 @@ async function loginWithMetaMask() {
         SimpleStorageContract.abi,
         contractAddress
     )
-    console.log(contractInstance)
+    // console.log(contractInstance)
+    await getNetworkName()
+    await whenAccountChange()
+    await whenNetworkChange()
+    // debugger
+    // console.log(networkName)
     return contractInstance
+
 }
 
 
@@ -94,7 +106,7 @@ async function getStoredData() {
         })
         .then(function (_result) {
             // debugger
-            console.log(_result);
+            //console.log(_result);
             result = _result;
         })
     }
@@ -122,6 +134,7 @@ setValueBtn.addEventListener('click', async () => {
     valueHolder.innerText = await setStoredData(_value);
     await getStoredData();
     valueHolder.innerText = result;
+    setValueBox.value = ""
 
 })
 
@@ -147,22 +160,44 @@ function signOutOfMetaMask() {
 // If the client is connected to the correct network at app initialization, the message of "Connected to Ropsten" will not appear, addEventListener
 // If the user is connected to any network, the message will not appear, the user has to change to the network so the message will apear, and this isn't the intended functionality
 
-window.ethereum.on('accountsChanged', function (accounts) {
-    console.log("Account changed")
+async function whenAccountChange(){
+await window.ethereum.on('accountsChanged', function (accounts) {
+    // console.log("Account changed")
     window.userWalletAddress = accounts[0];
     userWallet.innerText = `${window.userWalletAddress}`
 
-})
+})};
 
-window.ethereum.on('chainChanged', (_chainId) => {
+async function whenNetworkChange(){
+await window.ethereum.on('chainChanged', (_chainId) => {
+    // window.location.reload()
     console.log(_chainId);
-    if (_chainId == '0x3') {
-        chainId.innerText = "Connected to Ropsten";
-    } else if (_chainId == "0x1") {
-        chainId.innerText = "Connected to Mainnet, please connect to Ropsten"
-    }
-});
+    if (_chainId == ganacheNet) {
+        chainId.innerText = "Connected to Ganache"; 
+        chainId.classList.remove('bg-red-500', 'text-white')
+        chainId.classList.add('bg-green-500', 'text-white')
+        loginButton.classList.remove('bg-gray-500', 'text-gray-100', 'cursor-not-allowed')
+        loginButton.classList.add('bg-purple-500', 'text-white')
+        loginButton.disabled = false;
 
+    } else {
+        signOutOfMetaMask();
+        chainId.innerText = "Connected to wrong network, please connect to Ganache";
+        chainId.classList.remove('bg-green-500', 'text-white')
+        chainId.classList.add('bg-red-500', 'text-white')
+        loginButton.classList.remove('bg-purple-500', 'text-white')
+        loginButton.classList.add('bg-gray-500', 'text-gray-100', 'cursor-not-allowed')
+        loginButton.disabled = true;
+    }
+})};
+
+
+//Get network name
+let networkName;
+async function getNetworkName(){
+    await web3.eth.net.getNetworkType()
+    .then(data => networkName = data )
+}
 
 
 window.addEventListener("DOMContentLoaded", toggleButton);
