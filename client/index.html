@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <title>Basic Web3</title>
+</head>
+<body onload="load()" class="flex w-screen h-screen justify-center items-center">
+    <div class="flex-col space-y-2 justify-center items-center">
+    <button id="loginButton" onclick="" class="rounded-md p-2 bg-purple-500 text-white">
+        Login with MetaMask
+    </button>
+    <p id='userWallet' class='text-lg text-gray-600 my-2'></p>
+    <p id='chainId' class='text-lg text-gray-600 my-2'></p>
+    <button onclick="" id="getValue" class="rounded-md p-2 bg-green-600 text-white">Get Value</button>
+    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="setValueBox" type="text" placeholder="Input new Value">
+    <button onclick="" id="setValue" class="rounded-md p-2 bg-blue-600 text-white">Set Value</button>
+    <p>Value is: <div id="valueHolder">---</div></p>
+    
+    </div>
+    <script type="text/javascript" src="web3.min.js"></script>
+    <script type="text/javascript" src="./app.js"></script>
+
+</body>
+</html>
