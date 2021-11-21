@@ -182,7 +182,7 @@ await window.ethereum.on('chainChanged', (_chainId) => {
 
     } else {
         signOutOfMetaMask();
-        chainId.innerText = "Connected to wrong network, please connect to Ganache";
+        chainId.innerText = "Connected to wrong network, please connect to Ropsten";
         chainId.classList.remove('bg-green-500', 'text-white')
         chainId.classList.add('bg-red-500', 'text-white')
         loginButton.classList.remove('bg-purple-500', 'text-white')

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "copy": "copyfiles -f -V build/contracts/*.json ./client/abi/",
-    "dev": "lite-server --baseDir='client'", 
+    "dev": "lite-server --baseDir='client'",
     "runAll": "npm run copy && npm run dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,5 +14,8 @@
   "devDependencies": {
     "copyfiles": "^2.4.1",
     "lite-server": "^2.6.1"
+  },
+  "dependencies": {
+    "@truffle/hdwallet-provider": "^1.7.0"
   }
 }
