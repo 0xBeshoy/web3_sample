@@ -100,7 +100,7 @@ async function loginWithMetaMask() {
 // Interact with the get() method of the smartcontract
 let result;
 async function getStoredData() {
-    
+
     await contractInstance.methods.get().call({
             from: userWalletAddress
         })
@@ -109,7 +109,7 @@ async function getStoredData() {
             //console.log(_result);
             result = _result;
         })
-    }
+}
 
 getValueBtn.addEventListener('click', async () => {
     // debugger
@@ -160,43 +160,45 @@ function signOutOfMetaMask() {
 // If the client is connected to the correct network at app initialization, the message of "Connected to Ropsten" will not appear, addEventListener
 // If the user is connected to any network, the message will not appear, the user has to change to the network so the message will apear, and this isn't the intended functionality
 
-async function whenAccountChange(){
-await window.ethereum.on('accountsChanged', function (accounts) {
-    // console.log("Account changed")
-    window.userWalletAddress = accounts[0];
-    userWallet.innerText = `${window.userWalletAddress}`
+async function whenAccountChange() {
+    await window.ethereum.on('accountsChanged', function (accounts) {
+        // console.log("Account changed")
+        window.userWalletAddress = accounts[0];
+        userWallet.innerText = `${window.userWalletAddress}`
 
-})};
+    })
+};
 
-async function whenNetworkChange(){
-await window.ethereum.on('chainChanged', (_chainId) => {
-    // window.location.reload()
-    console.log(_chainId);
-    if (_chainId == ropstenNet) {
-        chainId.innerText = "Connected to Ganache"; 
-        chainId.classList.remove('bg-red-500', 'text-white')
-        chainId.classList.add('bg-green-500', 'text-white')
-        loginButton.classList.remove('bg-gray-500', 'text-gray-100', 'cursor-not-allowed')
-        loginButton.classList.add('bg-purple-500', 'text-white')
-        loginButton.disabled = false;
+async function whenNetworkChange() {
+    await window.ethereum.on('chainChanged', (_chainId) => {
+        // window.location.reload()
+        console.log(_chainId);
+        if (_chainId == ropstenNet) {
+            chainId.innerText = "Connected to Ropsten";
+            chainId.classList.remove('bg-red-500', 'text-white')
+            chainId.classList.add('bg-green-500', 'text-white')
+            loginButton.classList.remove('bg-gray-500', 'text-gray-100', 'cursor-not-allowed')
+            loginButton.classList.add('bg-purple-500', 'text-white')
+            loginButton.disabled = false;
 
-    } else {
-        signOutOfMetaMask();
-        chainId.innerText = "Connected to wrong network, please connect to Ropsten";
-        chainId.classList.remove('bg-green-500', 'text-white')
-        chainId.classList.add('bg-red-500', 'text-white')
-        loginButton.classList.remove('bg-purple-500', 'text-white')
-        loginButton.classList.add('bg-gray-500', 'text-gray-100', 'cursor-not-allowed')
-        loginButton.disabled = true;
-    }
-})};
+        } else {
+            signOutOfMetaMask();
+            chainId.innerText = "Connected to wrong network, please connect to Ropsten";
+            chainId.classList.remove('bg-green-500', 'text-white')
+            chainId.classList.add('bg-red-500', 'text-white')
+            loginButton.classList.remove('bg-purple-500', 'text-white')
+            loginButton.classList.add('bg-gray-500', 'text-gray-100', 'cursor-not-allowed')
+            loginButton.disabled = true;
+        }
+    })
+};
 
 
 //Get network name
 let networkName;
-async function getNetworkName(){
+async function getNetworkName() {
     await web3.eth.net.getNetworkType()
-    .then(data => networkName = data )
+        .then(data => networkName = data)
 }
 
 
