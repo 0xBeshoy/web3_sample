@@ -172,7 +172,7 @@ async function whenNetworkChange(){
 await window.ethereum.on('chainChanged', (_chainId) => {
     // window.location.reload()
     console.log(_chainId);
-    if (_chainId == ganacheNet) {
+    if (_chainId == ropstenNet) {
         chainId.innerText = "Connected to Ganache"; 
         chainId.classList.remove('bg-red-500', 'text-white')
         chainId.classList.add('bg-green-500', 'text-white')
